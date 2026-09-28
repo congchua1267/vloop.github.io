@@ -807,7 +807,7 @@
     }
 
     // Đăng bài mới + Kiểm duyệt từ khóa tự động (Mục 6)
-    function handleFormSubmit(e) {
+    async function handleFormSubmit(e) {
       e.preventDefault();
 
       const title = document.getElementById('postTitle').value.trim();
@@ -851,8 +851,22 @@
         boosted: false
       };
 
-      products.unshift(newProduct);
-      localStorage.setItem('vloop_products', JSON.stringify(products));
+     try {
+  await window.vloopFirebase.addDoc(
+    window.vloopFirebase.collection(window.vloopDB, "products"),
+    {
+      ...newProduct,
+      createdAt: window.vloopFirebase.serverTimestamp()
+    }
+  );
+
+  products.unshift(newProduct);
+
+} catch (error) {
+  console.error("Lỗi khi đăng sản phẩm:", error);
+  alert("❌ Không thể đăng sản phẩm. Vui lòng thử lại!");
+  return;
+}
 
       alert("🎉 Đăng tin thành công! Món đồ của bạn đã được hiển thị trên bản tin trường.");
       document.getElementById('postForm').reset();
