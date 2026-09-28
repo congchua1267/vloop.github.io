@@ -470,7 +470,43 @@
       </div>
     </div>
   </footer>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } 
+    from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAiVymz9FyXncHUPna2BAkC7NGI-2pNtaA",
+    authDomain: "vloop-4ac54.firebaseapp.com",
+    projectId: "vloop-4ac54",
+    storageBucket: "vloop-4ac54.firebasestorage.app",
+    messagingSenderId: "573475272736",
+    appId: "1:573475272736:web:0698cb310ccac05c942445"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Cho JavaScript hiện tại của VLoop sử dụng Firebase
+  window.vloopDB = db;
+
+  window.vloopFirebase = {
+    collection,
+    addDoc,
+    onSnapshot,
+    serverTimestamp
+  };
+
+  console.log("🔥 VLoop đã kết nối Firebase!");
+</script>
   <!-- Core JavaScript Logic -->
   <script>
     // Dữ liệu ban đầu mẫu (Dành riêng cho sinh viên VLU)
