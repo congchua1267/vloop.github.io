@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLoop - Nền tảng Trao đổi, Mua bán & Cho tặng Đồ cũ Sinh viên VLU</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vlu: {
+              red: '#B91C1C',
+              darkRed: '#991B1B',
+              lightRed: '#FEE2E2',
+              navy: '#0F172A',
+              gold: '#D97706'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-vlu-navy text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300">
+          <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> VLU Verified Community
+        </span>
+        <span>Hệ sinh thái trao đổi nội bộ an toàn dành riêng cho sinh viên Đại học Văn Lang</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <span class="hover:text-white transition cursor-pointer"><i class="fa-solid fa-map-pin mr-1 text-vlu-red"></i>CS3 Đặng Thùy Trâm</span>
+        <span class="hidden md:inline">|</span>
+        <span class="hover:text-white transition cursor-pointer">CS1 Nguyễn Khắc Nhu</span>
+        <span class="hidden md:inline">|</span>
+        <span class="hover:text-white transition cursor-pointer">CS2 Phan Văn Trị</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-4">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
+          <div class="w-12 h-12 bg-vlu-red text-white rounded-2xl flex items-center justify-center font-extrabold text-2xl shadow-lg shadow-red-500/20">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-2xl font-black tracking-tight text-slate-900">V<span class="text-vlu-red">Loop</span></span>
+              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-red-100 text-vlu-red rounded">VLU</span>
+            </div>
+            <p class="text-[11px] text-slate-400 font-medium">Vòng lặp đồ cũ sinh viên</p>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="hidden md:flex flex-1 max-w-xl mx-4">
+          <div class="relative w-full">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input 
+              type="text" 
+              id="searchInput"
+              oninput="handleSearch()"
+              placeholder="Tìm giáo trình, máy tính Casio, bàn học, ấm siêu tốc, mô hình..." 
+              class="w-full pl-11 pr-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-vlu-red/20 focus:border-vlu-red transition"
+            >
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-2 border-r border-slate-200 pr-3 mr-1 text-sm font-medium text-slate-600">
+            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <span class="hidden lg:inline text-xs font-semibold text-slate-700">thao.227ec@vanlanguni.vn</span>
+            <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">98 điểm Uy tín</span>
+          </div>
+
+          <button 
+            onclick="openNewPostModal()" 
+            class="inline-flex items-center gap-2 px-4 py-2.5 bg-vlu-red hover:bg-vlu-darkRed text-white text-sm font-bold rounded-xl shadow-md shadow-red-600/20 transition active:scale-95"
+          >
+            <i class="fa-solid fa-circle-plus"></i>
+            <span>Đăng tin</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile Search Bar -->
+      <div class="pb-3 md:hidden">
+        <div class="relative w-full">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input 
+            type="text" 
+            id="mobileSearchInput"
+            oninput="handleMobileSearch()"
+            placeholder="Tìm sách, đồ dùng phòng trọ..." 
+            class="w-full pl-10 pr-3 py-2 bg-slate-100 border border-slate-200 rounded-lg text-xs focus:outline-none focus:bg-white focus:border-vlu-red"
+          >
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
+    
+    <!-- Hero / Smart Info Banner -->
+    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-vlu-navy rounded-3xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-300 border border-red-500/30 mb-3">
+          <i class="fa-solid fa-leaf text-emerald-400"></i> Kinh tế tuần hoàn trong Campus
+        </span>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-3">
+          Tái sinh vòng đời đồ dùng cũ <br class="hidden sm:inline">Tiết kiệm & An tâm tại VLU
+        </h1>
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+          Chỉ dành riêng cho sinh viên Văn Lang. Không sợ bài rác lách luật, nói không với tráo hàng – chỉ giao dịch trực tiếp ngay tại thư viện, căn tin hoặc sảnh trường.
+        </p>
+
+        <!-- Quick Filter Mode Pills -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <button onclick="setTransactionType('ALL')" id="filter-all" class="px-4 py-2 rounded-xl bg-white text-slate-900 shadow-sm transition">
+            Tất cả tin đăng
+          </button>
+          <button onclick="setTransactionType('BÁN')" id="filter-ban" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
+            🛒 Cần Bán
+          </button>
+          <button onclick="setTransactionType('TRAO ĐỔI')" id="filter-traodoi" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
+            🔄 Cần Trao Đổi
+          </button>
+          <button onclick="setTransactionType('TẶNG')" id="filter-tang" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
+            🎁 Tặng Miễn Phí (0đ)
+          </button>
+        </div>
+      </div>
+      <!-- Background Graphic Decor -->
+      <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-[220px]">
+        <i class="fa-solid fa-recycle"></i>
+      </div>
+    </div>
+
+    <!-- Category Carousel & Filters -->
+    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- Campus Selector Filter -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 custom-scroll text-xs">
+        <span class="font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-location-dot text-vlu-red mr-1"></i>Cơ sở:</span>
+        <button onclick="setCampus('ALL')" id="campus-all" class="px-3 py-1.5 rounded-lg font-bold bg-slate-900 text-white whitespace-nowrap transition">Toàn trường</button>
+        <button onclick="setCampus('Cơ sở 3')" id="campus-cs3" class="px-3 py-1.5 rounded-lg font-semibold bg-white border border-slate-200 text-slate-600 hover:border-slate-300 whitespace-nowrap transition">CS3 Đặng Thùy Trâm</button>
+        <button onclick="setCampus('Cơ sở 1')" id="campus-cs1" class="px-3 py-1.5 rounded-lg font-semibold bg-white border border-slate-200 text-slate-600 hover:border-slate-300 whitespace-nowrap transition">CS1 Nguyễn Khắc Nhu</button>
+        <button onclick="setCampus('Cơ sở 2')" id="campus-cs2" class="px-3 py-1.5 rounded-lg font-semibold bg-white border border-slate-200 text-slate-600 hover:border-slate-300 whitespace-nowrap transition">CS2 Phan Văn Trị</button>
+      </div>
+
+      <!-- Categories Dropdown & Sorting -->
+      <div class="flex items-center gap-3">
+        <select id="categorySelect" onchange="handleCategoryFilter()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-vlu-red">
+          <option value="ALL">Tất cả danh mục</option>
+          <option value="Giáo trình & Sách">📚 Giáo trình & Sách</option>
+          <option value="Đồ công nghệ">💻 Đồ công nghệ & Phụ kiện</option>
+          <option value="Đồ dùng phòng trọ">🛏️ Đồ dùng phòng trọ</option>
+          <option value="Đồ án & Kiến trúc">🎨 Dụng cụ vẽ & Đồ án</option>
+          <option value="Thời trang & Đồng phục">👕 Quần áo & Đồng phục VLU</option>
+          <option value="Khác">📦 Khác</option>
+        </select>
+        
+        <div class="text-xs text-slate-500 font-medium">
+          Hiển thị: <span id="itemCount" class="font-bold text-slate-900">0</span> tin đăng
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Dynamic Product Cards injected here -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+      <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-700 mb-1">Không tìm thấy món đồ phù hợp</h3>
+      <p class="text-xs text-slate-400 mb-4">Hãy thử tìm từ khóa khác hoặc chuyển sang danh mục khác xem sao nhé!</p>
+      <button onclick="resetFilters()" class="text-xs font-bold text-vlu-red underline">Xóa toàn bộ bộ lọc</button>
+    </div>
+
+    <!-- Bottom Features & Guidelines (Mục 6 & 7 & 10) -->
+    <section class="mt-16 border-t border-slate-200 pt-12">
+      <div class="text-center max-w-xl mx-auto mb-10">
+        <h2 class="text-xl font-black text-slate-900">Nguyên tắc giao dịch VLoop tại Văn Lang</h2>
+        <p class="text-xs text-slate-500 mt-1">Bảo vệ quyền lợi sinh viên và xây dựng văn hóa tiêu dùng bền vững</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-red-50 text-vlu-red flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-user-check"></i>
+          </div>
+          <h4 class="font-bold text-sm text-slate-800 mb-1">Xác thực Sinh viên VLU</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Hạn chế tối đa tài khoản ảo, lừa đảo. Mỗi tài khoản có điểm tín nhiệm (Trust Score) dựa trên đánh giá sau giao dịch.
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-camera-rotate"></i>
+          </div>
+          <h4 class="font-bold text-sm text-slate-800 mb-1">Minh bạch tình trạng 100%</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Bắt buộc chụp ảnh thực tế, mô tả chi tiết vết xước, lỗi nhẹ (nếu có). Nghiêm cấm ảnh mạng giả mạo.
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-handshake-simple"></i>
+          </div>
+          <h4 class="font-bold text-sm text-slate-800 mb-1">Giao dịch an toàn tại Trường</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Khuyến khích hẹn gặp trực tiếp tại Căn tin Tòa A, Sảnh G Cơ sở 3 hoặc Thư viện để kiểm tra đồ trước khi thanh toán.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Đăng tin mới (Đã tích hợp kiểm duyệt từ khóa tự động - Mục 6) -->
+  <div id="newPostModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto custom-scroll relative">
+      <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900">Đăng tin trao đổi / thanh lý</h3>
+          <p class="text-xs text-slate-400">Đồ dùng của bạn sẽ được tiếp cận sinh viên VLU trong ngày</p>
+        </div>
+        <button onclick="closeNewPostModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="postForm" onsubmit="handleFormSubmit(event)" class="mt-5 space-y-4">
+        <!-- Type Selection -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hình thức bài đăng <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="cursor-pointer border border-slate-200 rounded-xl p-3 text-center transition hover:border-slate-300 has-[:checked]:border-vlu-red has-[:checked]:bg-red-50">
+              <input type="radio" name="postType" value="BÁN" checked class="hidden" onchange="togglePriceInput(true)">
+              <div class="font-bold text-xs text-slate-800">🛒 Bán lại</div>
+              <span class="text-[10px] text-slate-400">Giá sinh viên</span>
+            </label>
+            <label class="cursor-pointer border border-slate-200 rounded-xl p-3 text-center transition hover:border-slate-300 has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+              <input type="radio" name="postType" value="TRAO ĐỔI" class="hidden" onchange="togglePriceInput(false)">
+              <div class="font-bold text-xs text-slate-800">🔄 Trao đổi</div>
+              <span class="text-[10px] text-slate-400">Đổi món khác</span>
+            </label>
+            <label class="cursor-pointer border border-slate-200 rounded-xl p-3 text-center transition hover:border-slate-300 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50">
+              <input type="radio" name="postType" value="TẶNG" class="hidden" onchange="togglePriceInput(false)">
+              <div class="font-bold text-xs text-slate-800">🎁 Cho tặng</div>
+              <span class="text-[10px] text-slate-400">Miễn phí 0đ</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Tên món đồ <span class="text-red-500">*</span></label>
+          <input 
+            type="text" 
+            id="postTitle"
+            required
+            placeholder="Ví dụ: Giáo trình Kinh tế vi mô, Chuột không dây Logitech, Ấm đun nước..." 
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red"
+          >
+        </div>
+
+        <!-- Category & Campus Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Danh mục <span class="text-red-500">*</span></label>
+            <select id="postCategory" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red">
+              <option value="Giáo trình & Sách">Giáo trình & Sách học</option>
+              <option value="Đồ công nghệ">Đồ công nghệ & Điện tử</option>
+              <option value="Đồ dùng phòng trọ">Đồ dùng phòng trọ</option>
+              <option value="Đồ án & Kiến trúc">Dụng cụ vẽ & Đồ án</option>
+              <option value="Thời trang & Đồng phục">Thời trang & Đồng phục VLU</option>
+              <option value="Khác">Đồ dùng khác</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Cơ sở hẹn gặp chính <span class="text-red-500">*</span></label>
+            <select id="postCampus" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red">
+              <option value="Cơ sở 3">Cơ sở 3 - Đặng Thùy Trâm</option>
+              <option value="Cơ sở 1">Cơ sở 1 - Nguyễn Khắc Nhu</option>
+              <option value="Cơ sở 2">Cơ sở 2 - Phan Văn Trị</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Price or Swap note -->
+        <div id="priceWrapper">
+          <label class="block text-xs font-bold text-slate-700 mb-1">Giá bán dự kiến (VNĐ) <span class="text-red-500">*</span></label>
+          <input 
+            type="number" 
+            id="postPrice"
+            placeholder="Ví dụ: 50000" 
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red"
+          >
+        </div>
+
+        <!-- Condition Selection (Mục 7) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Tình trạng thực tế <span class="text-red-500">*</span></label>
+          <select id="postCondition" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red">
+            <option value="Còn như mới (95-99%)">✨ Còn như mới (95 - 99%)</option>
+            <option value="Đã qua sử dụng, hoạt động tốt">👍 Đã qua sử dụng, hoạt động tốt</option>
+            <option value="Có trầy xước nhẹ bên ngoài">🔍 Có trầy xước nhẹ bên ngoài</option>
+            <option value="Có lỗi nhẹ (đã ghi chú rõ)">⚠️ Có lỗi nhẹ (sẽ ghi chú bên dưới)</option>
+          </select>
+        </div>
+
+        <!-- Image URL -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Link hình ảnh sản phẩm (URL)</label>
+          <input 
+            type="url" 
+            id="postImageUrl"
+            placeholder="https://images.unsplash.com/... (Bỏ trống sẽ dùng ảnh mặc định)" 
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red"
+          >
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Mô tả chi tiết món đồ <span class="text-red-500">*</span></label>
+          <textarea 
+            id="postDescription"
+            rows="3" 
+            required
+            placeholder="Mô tả công năng, thời gian đã dùng, phụ kiện đi kèm hoặc món bạn muốn đổi..."
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red"
+          ></textarea>
+        </div>
+
+        <!-- Warning / Content Moderation Notice (Mục 6) -->
+        <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-[11px] text-amber-800 flex gap-2">
+          <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-0.5 text-xs"></i>
+          <div>
+            <strong>Quy chuẩn cộng đồng VLU:</strong> Hệ thống tự động lọc bài đăng chứa từ khóa không phù hợp (hẹn hò, tìm bạn, tuyển dụng đa cấp, tâm sự...). Vui lòng chỉ đăng đồ dùng học tập và sinh hoạt.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeNewPostModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
+          <button type="submit" class="px-5 py-2.5 bg-vlu-red hover:bg-vlu-darkRed text-white text-xs font-bold rounded-xl shadow-md transition">
+            Đăng tin ngay
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Chi tiết sản phẩm & Trợ lý hẹn gặp (Mục 5 & 7) -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto custom-scroll relative">
+      <button onclick="closeDetailModal()" class="absolute right-4 top-4 w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-sm z-10">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="detailContent">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Khung Chat hẹn gặp sinh viên trong trường -->
+  <div id="chatModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl flex flex-col h-[550px] overflow-hidden">
+      <!-- Chat Header -->
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-vlu-red flex items-center justify-center font-bold text-sm">
+            VL
+          </div>
+          <div>
+            <h4 id="chatSellerName" class="text-xs font-bold">Người bán VLU</h4>
+            <div class="flex items-center gap-1.5 text-[10px] text-emerald-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Đã xác thực @vanlanguni.vn
+            </div>
+          </div>
+        </div>
+        <button onclick="closeChatModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Quick Meetup Suggestions (An toàn khuôn viên) -->
+      <div class="bg-slate-100 px-4 py-2 border-b border-slate-200 flex items-center gap-2 overflow-x-auto text-[11px] whitespace-nowrap">
+        <span class="font-bold text-slate-500">Hẹn nhanh:</span>
+        <button onclick="sendQuickMessage('Mình hẹn ở Căn tin Tòa A (Cơ sở 3) được không bạn?')" class="bg-white px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">📍 Căn tin CS3</button>
+        <button onclick="sendQuickMessage('Gặp ở Thư viện tầng 3 Tòa L nha!')" class="bg-white px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">📍 Thư viện Tòa L</button>
+        <button onclick="sendQuickMessage('Mình qua Sảnh G CS1 lấy được không?')" class="bg-white px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50">📍 Sảnh G CS1</button>
+      </div>
+
+      <!-- Messages Thread -->
+      <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 custom-scroll text-xs">
+        <div class="flex gap-2">
+          <div class="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600">S</div>
+          <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-slate-700">
+            Chào bạn! Món này mình vẫn còn nhé. Bạn học ở cơ sở nào để tiện hẹn gặp xem đồ nè?
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="p-3 border-t border-slate-100 bg-white flex gap-2">
+        <input 
+          type="text" 
+          id="chatInput" 
+          onkeydown="if(event.key === 'Enter') sendChatMessage()"
+          placeholder="Nhập tin nhắn trao đổi hoặc giờ hẹn..." 
+          class="flex-1 bg-slate-100 px-3.5 py-2 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-vlu-red border border-slate-200"
+        >
+        <button onclick="sendChatMessage()" class="bg-vlu-red text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-vlu-darkRed transition">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 mt-12 text-slate-500 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 bg-vlu-red text-white rounded-lg flex items-center justify-center font-bold text-xs">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </div>
+        <span class="font-black text-slate-800">VLoop Community</span>
+        <span>— Nền tảng kinh tế tuần hoàn sinh viên Văn Lang</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <a href="#" class="hover:text-slate-600">Quy tắc ứng xử</a>
+        <span>•</span>
+        <a href="#" class="hover:text-slate-600">Báo cáo gian lận</a>
+        <span>•</span>
+        <a href="#" class="hover:text-slate-600">Liên hệ CLB Hỗ trợ sinh viên</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Logic -->
+  <script>
+    // Dữ liệu ban đầu mẫu (Dành riêng cho sinh viên VLU)
+    const initialProducts = [
+      {
+        id: 1,
+        title: "Giáo trình Kinh tế Vi mô (Bản chuẩn VLU)",
+        category: "Giáo trình & Sách",
+        type: "BÁN",
+        price: 35000,
+        campus: "Cơ sở 3",
+        condition: "Đã qua sử dụng, hoạt động tốt",
+        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60",
+        description: "Sách mua kỳ trước của thầy dạy khoa QTKD, đã note bút dạ quang các chương quan trọng thi cuối kỳ. Còn nguyên gáy không rách trang nào.",
+        seller: "Minh Triết (K28)",
+        trustScore: 99,
+        badge: "Đã xác minh SV",
+        boosted: true
+      },
+      {
+        id: 2,
+        title: "Máy tính cầm tay Casio FX-580VNX chính hãng",
+        category: "Đồ công nghệ",
+        type: "TRAO ĐỔI",
+        price: 0,
+        swapFor: "Đổi giáo trình E-Commerce hoặc Bàn học gấp",
+        campus: "Cơ sở 3",
+        condition: "Còn như mới (95-99%)",
+        image: "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?w=500&auto=format&fit=crop&q=60",
+        description: "Máy dùng 1 kỳ môn Toán cao cấp, còn đủ nắp đậy và dán tem chống giả. Muốn đổi lấy bộ sách chuyên ngành Thương mại điện tử kỳ tới.",
+        seller: "Phương Thảo (K28 EC)",
+        trustScore: 98,
+        badge: "Top Seller",
+        boosted: false
+      },
+      {
+        id: 3,
+        title: "Kệ giày dép 4 tầng lắp ráp bằng gỗ thông",
+        category: "Đồ dùng phòng trọ",
+        type: "TẶNG",
+        price: 0,
+        campus: "Cơ sở 2",
+        condition: "Có trầy xước nhẹ bên ngoài",
+        image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500&auto=format&fit=crop&q=60",
+        description: "Mình chuẩn bị chuyển trọ cuối tháng không mang theo được, tặng bạn nào cần để phòng trọ gần CS2 Phan Văn Trị nhé. Tới phòng lấy trực tiếp giúp mình.",
+        seller: "Hoàng Nam (K27)",
+        trustScore: 95,
+        badge: "Đã xác minh SV",
+        boosted: false
+      },
+      {
+        id: 4,
+        title: "Thước chữ T 80cm + Ống đựng bản vẽ A0",
+        category: "Đồ án & Kiến trúc",
+        type: "BÁN",
+        price: 70000,
+        campus: "Cơ sở 3",
+        condition: "Đã qua sử dụng, hoạt động tốt",
+        image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=500&auto=format&fit=crop&q=60",
+        description: "Dành cho sinh viên năm 1 Thiết kế Mỹ thuật hoặc Kiến trúc. Thước mica còn chuẩn góc, ống đựng không nứt vỡ.",
+        seller: "Khánh Linh (K29 ART)",
+        trustScore: 100,
+        badge: "Đã xác minh SV",
+        boosted: true
+      },
+      {
+        id: 5,
+        title: "Áo Polo Đồng phục Văn Lang size L",
+        category: "Thời trang & Đồng phục",
+        type: "BÁN",
+        price: 45000,
+        campus: "Cơ sở 1",
+        condition: "Còn như mới (95-99%)",
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60",
+        description: "Áo mới mặc 2 lần lúc sinh hoạt đầu khóa, chất vải thoáng mát, form chuẩn cho bạn nào từ 58-68kg.",
+        seller: "Đức Huy (K28)",
+        trustScore: 92,
+        badge: "Đã xác minh SV",
+        boosted: false
+      },
+      {
+        id: 6,
+        title: "Bàn gấp mini học bài trên giường KTX",
+        category: "Đồ dùng phòng trọ",
+        type: "BÁN",
+        price: 30000,
+        campus: "Cơ sở 3",
+        condition: "Có trầy xước nhẹ bên ngoài",
+        image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=500&auto=format&fit=crop&q=60",
+        description: "Bàn có khe cắm iPad và chỗ để cốc nước, chân gấp gọn chắc chắn.",
+        seller: "Quỳnh Như (K28)",
+        trustScore: 96,
+        badge: "Đã xác minh SV",
+        boosted: false
+      }
+    ];
+
+    // Local state
+    let products = JSON.parse(localStorage.getItem('vloop_products')) || initialProducts;
+    let selectedType = 'ALL';
+    let selectedCampus = 'ALL';
+    let selectedCategory = 'ALL';
+    let searchQuery = '';
+
+    // Danh sách từ khóa cấm/bài rác (Mục 6: Kiểm soát nội dung)
+    const bannedKeywords = [
+      'tìm người yêu', 'tuyển ctv', 'tâm sự', 'hẹn hò', 'gạ', 'cờ bạc', 
+      'lừa đảo', 'tiền ảo', 'pass ny', 'cho vay', 'vay tiền', 'tinder'
+    ];
+
+    // Khởi tạo trang
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+    });
+
+    // Format tiền VND
+    function formatVND(amount) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+
+    // Render danh sách sản phẩm
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      const empty = document.getElementById('emptyState');
+      const countEl = document.getElementById('itemCount');
+
+      const filtered = products.filter(item => {
+        const matchType = (selectedType === 'ALL') || (item.type === selectedType);
+        const matchCampus = (selectedCampus === 'ALL') || (item.campus === selectedCampus);
+        const matchCat = (selectedCategory === 'ALL') || (item.category === selectedCategory);
+        const matchQuery = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchType && matchCampus && matchCat && matchQuery;
+      });
+
+      countEl.innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      grid.innerHTML = filtered.map(item => `
+        <div class="bg-white rounded-2xl border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md transition duration-200 overflow-hidden flex flex-col group">
+          <!-- Card Image & Badges -->
+          <div class="relative h-48 bg-slate-100 overflow-hidden cursor-pointer" onclick="viewDetail(${item.id})">
+            <img 
+              src="${item.image}" 
+              alt="${item.title}" 
+              class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+              onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60'"
+            >
+            <div class="absolute top-2.5 left-2.5 flex flex-col gap-1">
+              ${renderTypeBadge(item.type)}
+              ${item.boosted ? `<span class="bg-amber-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded shadow"><i class="fa-solid fa-bolt mr-1"></i>ĐẨY TIN</span>` : ''}
+            </div>
+            <div class="absolute bottom-2.5 right-2.5 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-lg">
+              <i class="fa-solid fa-location-dot text-red-400 mr-1"></i>${item.campus}
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-[11px] font-semibold text-slate-400 mb-1 flex items-center justify-between">
+                <span>${item.category}</span>
+                <span class="text-emerald-600"><i class="fa-solid fa-check-double mr-0.5"></i>${item.condition.split('(')[0]}</span>
+              </div>
+              <h3 
+                class="font-bold text-sm text-slate-900 line-clamp-2 hover:text-vlu-red cursor-pointer transition mb-2"
+                onclick="viewDetail(${item.id})"
+              >
+                ${item.title}
+              </h3>
+            </div>
+
+            <!-- Price & Seller Row -->
+            <div class="pt-3 border-t border-slate-100">
+              <div class="mb-3">
+                ${item.type === 'BÁN' ? `
+                  <div class="text-base font-extrabold text-vlu-red">${formatVND(item.price)}</div>
+                ` : item.type === 'TRAO ĐỔI' ? `
+                  <div class="text-xs font-bold text-blue-600 line-clamp-1"><i class="fa-solid fa-repeat mr-1"></i>${item.swapFor || 'Trao đổi đồ khác'}</div>
+                ` : `
+                  <div class="text-base font-extrabold text-emerald-600">Miễn phí 0đ 🎁</div>
+                `}
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-600">
+                    ${item.seller.charAt(0)}
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-semibold text-slate-700 leading-tight">${item.seller}</div>
+                    <div class="text-[9px] text-slate-400">Trust: <span class="font-bold text-emerald-600">${item.trustScore}/100</span></div>
+                  </div>
+                </div>
+
+                <button 
+                  onclick="openChat('${item.seller}')" 
+                  class="px-2.5 py-1.5 bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-vlu-red rounded-lg text-xs font-bold transition flex items-center gap-1"
+                >
+                  <i class="fa-regular fa-comment-dots"></i> Nhắn
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTypeBadge(type) {
+      if (type === 'BÁN') return `<span class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">🛒 BÁN</span>`;
+      if (type === 'TRAO ĐỔI') return `<span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">🔄 ĐỔI</span>`;
+      return `<span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">🎁 CHO TẶNG</span>`;
+    }
+
+    // Xử lý bộ lọc giao dịch
+    function setTransactionType(type) {
+      selectedType = type;
+      ['all', 'ban', 'traodoi', 'tang'].forEach(id => {
+        const btn = document.getElementById(`filter-${id}`);
+        if(btn) {
+          btn.className = "px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition";
+        }
+      });
+      const activeId = type === 'ALL' ? 'all' : (type === 'BÁN' ? 'ban' : (type === 'TRAO ĐỔI' ? 'traodoi' : 'tang'));
+      const activeBtn = document.getElementById(`filter-${activeId}`);
+      if(activeBtn) {
+        activeBtn.className = "px-4 py-2 rounded-xl bg-white text-slate-900 font-bold shadow-sm transition";
+      }
+      renderProducts();
+    }
+
+    // Xử lý bộ lọc Campus
+    function setCampus(campus) {
+      selectedCampus = campus;
+      ['all', 'cs3', 'cs1', 'cs2'].forEach(id => {
+        const btn = document.getElementById(`campus-${id}`);
+        if(btn) {
+          btn.className = "px-3 py-1.5 rounded-lg font-semibold bg-white border border-slate-200 text-slate-600 hover:border-slate-300 whitespace-nowrap transition";
+        }
+      });
+      const activeMap = { 'ALL': 'all', 'Cơ sở 3': 'cs3', 'Cơ sở 1': 'cs1', 'Cơ sở 2': 'cs2' };
+      const activeBtn = document.getElementById(`campus-${activeMap[campus]}`);
+      if(activeBtn) {
+        activeBtn.className = "px-3 py-1.5 rounded-lg font-bold bg-slate-900 text-white whitespace-nowrap transition";
+      }
+      renderProducts();
+    }
+
+    // Xử lý lọc danh mục
+    function handleCategoryFilter() {
+      selectedCategory = document.getElementById('categorySelect').value;
+      renderProducts();
+    }
+
+    // Xử lý tìm kiếm
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value;
+      renderProducts();
+    }
+    function handleMobileSearch() {
+      searchQuery = document.getElementById('mobileSearchInput').value;
+      renderProducts();
+    }
+
+    function resetFilters() {
+      selectedType = 'ALL';
+      selectedCampus = 'ALL';
+      selectedCategory = 'ALL';
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      const mobileInput = document.getElementById('mobileSearchInput');
+      if(mobileInput) mobileInput.value = '';
+      document.getElementById('categorySelect').value = 'ALL';
+      setTransactionType('ALL');
+      setCampus('ALL');
+    }
+
+    // Quản lý Modal Đăng bài
+    function openNewPostModal() {
+      document.getElementById('newPostModal').classList.remove('hidden');
+    }
+    function closeNewPostModal() {
+      document.getElementById('newPostModal').classList.add('hidden');
+    }
+    function togglePriceInput(isSale) {
+      const wrapper = document.getElementById('priceWrapper');
+      if (isSale) {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+      }
+    }
+
+    // Đăng bài mới + Kiểm duyệt từ khóa tự động (Mục 6)
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('postTitle').value.trim();
+      const description = document.getElementById('postDescription').value.trim();
+      const category = document.getElementById('postCategory').value;
+      const campus = document.getElementById('postCampus').value;
+      const condition = document.getElementById('postCondition').value;
+      const type = document.querySelector('input[name="postType"]:checked').value;
+      const price = type === 'BÁN' ? Number(document.getElementById('postPrice').value || 0) : 0;
+      let image = document.getElementById('postImageUrl').value.trim();
+
+      // Kiểm duyệt bài viết không đúng mục đích (Mục 6: Tránh bài đăng linh tinh)
+      const combinedText = (title + " " + description).toLowerCase();
+      const hasViolation = bannedKeywords.some(keyword => combinedText.includes(keyword));
+
+      if (hasViolation) {
+        alert("⚠️ BÀI ĐĂNG BỊ TỪ CHỐI:\nNội dung chứa từ khóa vi phạm quy chuẩn chợ sinh viên VLU (không đăng tin tìm người yêu, tâm sự, lách luật hoặc quảng cáo sai mục đích). Vui lòng điều chỉnh lại!");
+        return;
+      }
+
+      if (!image) {
+        // Ảnh mặc định theo danh mục
+        if (category === 'Giáo trình & Sách') image = 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60';
+        else if (category === 'Đồ công nghệ') image = 'https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=500&auto=format&fit=crop&q=60';
+        else image = 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=500&auto=format&fit=crop&q=60';
+      }
+
+      const newProduct = {
+        id: Date.now(),
+        title,
+        category,
+        type,
+        price,
+        campus,
+        condition,
+        image,
+        description,
+        seller: "Tôi (K28 VLU)",
+        trustScore: 100,
+        badge: "Đã xác minh SV",
+        boosted: false
+      };
+
+      products.unshift(newProduct);
+      localStorage.setItem('vloop_products', JSON.stringify(products));
+
+      alert("🎉 Đăng tin thành công! Món đồ của bạn đã được hiển thị trên bản tin trường.");
+      document.getElementById('postForm').reset();
+      closeNewPostModal();
+      renderProducts();
+    }
+
+    // Modal xem chi tiết
+    function viewDetail(id) {
+      const item = products.find(p => p.id === id);
+      if(!item) return;
+
+      const detailContent = document.getElementById('detailContent');
+      detailContent.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-2xl overflow-hidden bg-slate-100 max-h-80 flex items-center justify-center">
+            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+          </div>
+          
+          <div class="flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                ${renderTypeBadge(item.type)}
+                <span class="text-xs text-slate-500 font-semibold">${item.category}</span>
+              </div>
+              <h2 class="text-lg font-black text-slate-900 leading-snug mb-3">${item.title}</h2>
+              
+              <div class="p-3 bg-slate-50 rounded-xl mb-4 border border-slate-100">
+                <div class="text-xs text-slate-500 mb-1">Mức giá / Yêu cầu:</div>
+                ${item.type === 'BÁN' ? `
+                  <div class="text-xl font-black text-vlu-red">${formatVND(item.price)}</div>
+                ` : item.type === 'TRAO ĐỔI' ? `
+                  <div class="text-sm font-bold text-blue-600">${item.swapFor || 'Đổi món đồ tương đương giá trị'}</div>
+                ` : `
+                  <div class="text-lg font-bold text-emerald-600">Tặng miễn phí 0 đồng</div>
+                `}
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-600 mb-4">
+                <div><strong>📍 Khuôn viên hẹn gặp:</strong> ${item.campus}</div>
+                <div><strong>🔍 Tình trạng thực:</strong> <span class="text-emerald-700 font-semibold">${item.condition}</span></div>
+                <div class="pt-2 border-t border-slate-100 text-slate-500 leading-relaxed">${item.description}</div>
+              </div>
+            </div>
+
+            <!-- Seller Safe Card -->
+            <div class="pt-3 border-t border-slate-200">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+                    ${item.seller.charAt(0)}
+                  </div>
+                  <div>
+                    <div class="text-xs font-bold text-slate-900 flex items-center gap-1">
+                      ${item.seller} <i class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                    </div>
+                    <div class="text-[10px] text-emerald-600 font-semibold">Trust Score: ${item.trustScore}/100 • Thành viên tích cực</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="closeDetailModal(); openChat('${item.seller}')" class="w-full py-2.5 bg-vlu-red hover:bg-vlu-darkRed text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition">
+                  <i class="fa-regular fa-comment-dots"></i> Nhắn tin trao đổi
+                </button>
+                <button onclick="reportItem(${item.id})" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition">
+                  <i class="fa-regular fa-flag text-rose-500"></i> Báo cáo tin
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+
+    function reportItem(id) {
+      alert("Đã ghi nhận phản hồi! Ban quản trị VLoop sẽ kiểm tra bài đăng này trong vòng 15 phút.");
+      closeDetailModal();
+    }
+
+    // Modal Chat & Hẹn gặp
+    function openChat(sellerName) {
+      document.getElementById('chatSellerName').innerText = sellerName;
+      document.getElementById('chatModal').classList.remove('hidden');
+    }
+    function closeChatModal() {
+      document.getElementById('chatModal').classList.add('hidden');
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if(!text) return;
+
+      appendMyMessage(text);
+      input.value = '';
+
+      // Tự động phản hồi mẫu giả lập sau 1.2s
+      setTimeout(() => {
+        const thread = document.getElementById('chatMessages');
+        thread.innerHTML += `
+          <div class="flex gap-2">
+            <div class="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600">S</div>
+            <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-slate-700">
+              Oki bạn ơi! Mình đang học ca sáng ở Tòa A CS3, trưa tầm 11h30 hẹn nhau ở Căn tin tầng 2 nha!
+            </div>
+          </div>
+        `;
+        thread.scrollTop = thread.scrollHeight;
+      }, 1200);
+    }
+
+    function sendQuickMessage(text) {
+      appendMyMessage(text);
+      setTimeout(() => {
+        const thread = document.getElementById('chatMessages');
+        thread.innerHTML += `
+          <div class="flex gap-2">
+            <div class="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-600">S</div>
+            <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-slate-700">
+              Nhất trí nè! Khi nào bạn tới nơi cứ nhắn mình chạy xuống liền nhé.
+            </div>
+          </div>
+        `;
+        thread.scrollTop = thread.scrollHeight;
+      }, 1000);
+    }
+
+    function appendMyMessage(text) {
+      const thread = document.getElementById('chatMessages');
+      thread.innerHTML += `
+        <div class="flex justify-end">
+          <div class="bg-vlu-red text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] shadow-sm">
+            ${text}
+          </div>
+        </div>
+      `;
+      thread.scrollTop = thread.scrollHeight;
+    }
+  </script>
+</body>
+</html>
