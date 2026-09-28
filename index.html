@@ -605,8 +605,7 @@
     ];
 
     // Local state
-    let products = JSON.parse(localStorage.getItem('vloop_products')) || initialProducts;
-    let selectedType = 'ALL';
+let products = [...initialProducts];    let selectedType = 'ALL';
     let selectedCampus = 'ALL';
     let selectedCategory = 'ALL';
     let searchQuery = '';
@@ -619,8 +618,59 @@
 
     // Khởi tạo trang
     document.addEventListener('DOMContentLoaded', () => {
+
+  // Hiển thị dữ liệu mẫu trước
+  renderProducts();
+
+  // Theo dõi sản phẩm trên Firestore theo thời gian thực
+  const productsRef = window.vloopFirebase.collection(
+    window.vloopDB,
+    "products"
+  );
+
+  window.vloopFirebase.onSnapshot(
+    productsRef,
+
+    (snapshot) => {
+
+      const firebaseProducts = [];
+
+      snapshot.forEach((doc) => {
+
+        const data = doc.data();
+
+        firebaseProducts.push({
+          ...data,
+          firestoreId: doc.id
+        });
+
+      });
+
+      // Kết hợp sản phẩm mẫu + sản phẩm người dùng đăng
+      products = [
+        ...firebaseProducts,
+        ...initialProducts
+      ];
+
       renderProducts();
-    });
+
+      console.log(
+        "🔥 Đã đồng bộ",
+        firebaseProducts.length,
+        "sản phẩm từ Firestore"
+      );
+    },
+
+    (error) => {
+      console.error(
+        "❌ Không thể tải sản phẩm từ Firestore:",
+        error
+      );
+    }
+
+  );
+
+});
 
     // Format tiền VND
     function formatVND(amount) {
