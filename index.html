@@ -482,7 +482,13 @@
     onSnapshot,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
   const firebaseConfig = {
     apiKey: "AIzaSyAiVymz9FyXncHUPna2BAkC7NGI-2pNtaA",
     authDomain: "vloop-4ac54.firebaseapp.com",
@@ -494,15 +500,21 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
 
   // Cho JavaScript hiện tại của VLoop sử dụng Firebase
   window.vloopDB = db;
+  window.vloopAuth = auth;
 
   window.vloopFirebase = {
     collection,
     addDoc,
     onSnapshot,
-    serverTimestamp
+    serverTimestamp,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
   };
 
   console.log("🔥 VLoop đã kết nối Firebase!");
