@@ -259,7 +259,7 @@
           </div>
           <h4 class="font-bold text-sm text-slate-800 mb-1">Xác thực Sinh viên VLU</h4>
           <p class="text-xs text-slate-500 leading-relaxed">
-            Hạn chế tối đa tài khoản ảo, lừa đảo. Mỗi tài khoản có điểm tín nhiệm (Trust Score) dựa trên đánh giá sau giao dịch.
+            Hạn chế tối đa tài khoản ảo, lừa đảo. Mỗi tài khoản có điểm tín nhiệm ( Score) dựa trên đánh giá sau giao dịch.
           </p>
         </div>
 
@@ -577,15 +577,230 @@
         <span class="font-black text-slate-800">VLoop Community</span>
         <span>— Nền tảng kinh tế tuần hoàn sinh viên Văn Lang</span>
       </div>
-      <div class="flex items-center gap-4 text-slate-400">
-        <a href="#" class="hover:text-slate-600">Quy tắc ứng xử</a>
-        <span>•</span>
-        <a href="#" class="hover:text-slate-600">Báo cáo gian lận</a>
-        <span>•</span>
-        <a href="#" class="hover:text-slate-600">Liên hệ CLB Hỗ trợ sinh viên</a>
-      </div>
+      <div class="flex flex-wrap justify-center gap-3 text-sm text-slate-400">
+
+    <button
+        onclick="openCommunityRules()"
+        class="hover:text-vlu-red transition">
+        Quy tắc cộng đồng
+    </button>
+
+    <span>•</span>
+
+    <button
+        onclick="openReportModal()"
+        class="hover:text-vlu-red transition">
+        Báo cáo vi phạm
+    </button>
+
+    <span>•</span>
+
+    <button
+        onclick="openSupportModal()"
+        class="hover:text-vlu-red transition">
+        Trung tâm hỗ trợ
+    </button>
+
+</div>
     </div>
   </footer>
+  <!-- Modal Quy tắc cộng đồng -->
+<div id="communityRulesModal"
+     class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-5">
+
+            <div>
+                <h3 class="text-xl font-black text-slate-900">
+                    Quy tắc cộng đồng VLoop
+                </h3>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Cùng xây dựng cộng đồng trao đổi sinh viên an toàn.
+                </p>
+            </div>
+
+            <button onclick="closeCommunityRules()"
+                    class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div class="space-y-3 text-sm text-slate-600">
+
+            <div class="p-3 bg-slate-50 rounded-xl">
+                <b>1. Đăng thông tin trung thực</b>
+                <p class="text-xs mt-1">
+                    Mô tả đúng tình trạng, giá và hình ảnh của sản phẩm.
+                </p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-xl">
+                <b>2. Không đăng sản phẩm bị cấm</b>
+                <p class="text-xs mt-1">
+                    Không đăng hàng giả, hàng vi phạm pháp luật hoặc nội dung không phù hợp.
+                </p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-xl">
+                <b>3. Tôn trọng thành viên khác</b>
+                <p class="text-xs mt-1">
+                    Không spam, quấy rối hoặc sử dụng ngôn từ xúc phạm.
+                </p>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-xl">
+                <b>4. Ưu tiên giao dịch an toàn</b>
+                <p class="text-xs mt-1">
+                    Nên gặp tại khu vực đông người hoặc Campus Hub của trường.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+  <!-- Modal Báo cáo vi phạm -->
+<div id="reportModal"
+     class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-5">
+
+            <div>
+                <h3 class="text-xl font-black text-slate-900">
+                    Báo cáo vi phạm
+                </h3>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Hãy cho VLoop biết vấn đề bạn gặp phải.
+                </p>
+            </div>
+
+            <button onclick="closeReportModal()"
+                    class="w-9 h-9 rounded-full bg-slate-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div class="space-y-4">
+
+            <div>
+                <label class="text-xs font-bold text-slate-700">
+                    Loại vi phạm
+                </label>
+
+                <select id="reportReason"
+                        class="mt-1 w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+
+                    <option value="">Chọn lý do</option>
+                    <option value="fraud">Nghi ngờ gian lận</option>
+                    <option value="incorrect">Sản phẩm không đúng mô tả</option>
+                    <option value="spam">Spam</option>
+                    <option value="inappropriate">Nội dung không phù hợp</option>
+                    <option value="other">Khác</option>
+
+                </select>
+            </div>
+
+            <div>
+                <label class="text-xs font-bold text-slate-700">
+                    Mô tả
+                </label>
+
+                <textarea
+                    id="reportDescription"
+                    rows="4"
+                    placeholder="Mô tả vấn đề bạn gặp phải..."
+                    class="mt-1 w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+                </textarea>
+            </div>
+
+            <button onclick="submitReport()"
+                    class="w-full py-3 bg-vlu-red text-white rounded-xl font-bold">
+                Gửi báo cáo
+            </button>
+
+        </div>
+
+    </div>
+</div>
+  <!-- Modal Trung tâm hỗ trợ -->
+<div id="supportModal"
+     class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-5">
+
+            <div>
+                <h3 class="text-xl font-black text-slate-900">
+                    Trung tâm hỗ trợ
+                </h3>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Các câu hỏi thường gặp khi sử dụng VLoop.
+                </p>
+            </div>
+
+            <button onclick="closeSupportModal()"
+                    class="w-9 h-9 rounded-full bg-slate-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div class="space-y-3">
+
+            <details class="p-3 bg-slate-50 rounded-xl">
+                <summary class="font-bold text-sm cursor-pointer">
+                    Làm sao để đăng sản phẩm?
+                </summary>
+
+                <p class="text-xs text-slate-500 mt-2">
+                    Đăng nhập tài khoản VLU, chọn Đăng tin và nhập thông tin sản phẩm.
+                </p>
+            </details>
+
+            <details class="p-3 bg-slate-50 rounded-xl">
+                <summary class="font-bold text-sm cursor-pointer">
+                    Làm sao liên hệ người bán?
+                </summary>
+
+                <p class="text-xs text-slate-500 mt-2">
+                    Mở sản phẩm và chọn Nhắn để trao đổi.
+                </p>
+            </details>
+
+            <details class="p-3 bg-slate-50 rounded-xl">
+                <summary class="font-bold text-sm cursor-pointer">
+                    Nên giao dịch ở đâu?
+                </summary>
+
+                <p class="text-xs text-slate-500 mt-2">
+                    Ưu tiên địa điểm đông người và khu vực Campus Hub được VLoop đề xuất.
+                </p>
+            </details>
+
+            <details class="p-3 bg-slate-50 rounded-xl">
+                <summary class="font-bold text-sm cursor-pointer">
+                    Nếu nghi ngờ gian lận thì sao?
+                </summary>
+
+                <p class="text-xs text-slate-500 mt-2">
+                    Không tiếp tục giao dịch và sử dụng chức năng Báo cáo vi phạm.
+                </p>
+            </details>
+
+        </div>
+
+    </div>
+</div>
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } 
@@ -650,7 +865,7 @@ import {
         image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60",
         description: "Sách mua kỳ trước của thầy dạy khoa QTKD, đã note bút dạ quang các chương quan trọng thi cuối kỳ. Còn nguyên gáy không rách trang nào.",
         seller: "Minh Triết (K28)",
-        trustScore: 99,
+        Score: 99,
         badge: "Đã xác minh SV",
         boosted: true
       },
@@ -666,7 +881,7 @@ import {
         image: "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?w=500&auto=format&fit=crop&q=60",
         description: "Máy dùng 1 kỳ môn Toán cao cấp, còn đủ nắp đậy và dán tem chống giả. Muốn đổi lấy bộ sách chuyên ngành Thương mại điện tử kỳ tới.",
         seller: "Phương Thảo (K28 EC)",
-        trustScore: 98,
+        Score: 98,
         badge: "Top Seller",
         boosted: false
       },
@@ -681,7 +896,7 @@ import {
         image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500&auto=format&fit=crop&q=60",
         description: "Mình chuẩn bị chuyển trọ cuối tháng không mang theo được, tặng bạn nào cần để phòng trọ gần CS2 Phan Văn Trị nhé. Tới phòng lấy trực tiếp giúp mình.",
         seller: "Hoàng Nam (K27)",
-        trustScore: 95,
+        Score: 95,
         badge: "Đã xác minh SV",
         boosted: false
       },
@@ -696,7 +911,7 @@ import {
         image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=500&auto=format&fit=crop&q=60",
         description: "Dành cho sinh viên năm 1 Thiết kế Mỹ thuật hoặc Kiến trúc. Thước mica còn chuẩn góc, ống đựng không nứt vỡ.",
         seller: "Khánh Linh (K29 ART)",
-        trustScore: 100,
+        Score: 100,
         badge: "Đã xác minh SV",
         boosted: true
       },
@@ -711,7 +926,7 @@ import {
         image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60",
         description: "Áo mới mặc 2 lần lúc sinh hoạt đầu khóa, chất vải thoáng mát, form chuẩn cho bạn nào từ 58-68kg.",
         seller: "Đức Huy (K28)",
-        trustScore: 92,
+        Score: 92,
         badge: "Đã xác minh SV",
         boosted: false
       },
@@ -726,7 +941,7 @@ import {
         image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=500&auto=format&fit=crop&q=60",
         description: "Bàn có khe cắm iPad và chỗ để cốc nước, chân gấp gọn chắc chắn.",
         seller: "Quỳnh Như (K28)",
-        trustScore: 96,
+        Score: 96,
         badge: "Đã xác minh SV",
         boosted: false
       }
@@ -882,7 +1097,12 @@ let products = [...initialProducts];    let selectedType = 'ALL';
                   </div>
                   <div>
                     <div class="text-[11px] font-semibold text-slate-700 leading-tight">${item.seller}</div>
-                    <div class="text-[9px] text-slate-400">Trust: <span class="font-bold text-emerald-600">${item.trustScore}/100</span></div>
+                    <div class="text-[9px] text-slate-400">
+                    Uy tín:
+                    <span class="font-bold text-slate-600"> ${item.trustScore === null || item.trustScore === undefined
+            ? 'Mới'
+            : item.trustScore + '/100'}
+    </span></div>
                   </div>
                 </div>
 
@@ -1023,9 +1243,10 @@ let products = [...initialProducts];    let selectedType = 'ALL';
         condition,
         image,
         description,
-        seller: "Tôi (K28 VLU)",
-        trustScore: 100,
-        badge: "Đã xác minh SV",
+        seller: currentUser ? currentUser.email : "Sinh viên VLU",
+        sellerId: currentUser ? currentUser.uid : null,
+        trustScore: null,
+        badge: "Thành viên mới",
         boosted: false
       };
 
@@ -1376,6 +1597,108 @@ window.vloopFirebase.onAuthStateChanged(
 
   }
 );
+    // ==================================
+// FOOTER MODALS
+// ==================================
+
+function openCommunityRules() {
+    document.getElementById('communityRulesModal')
+        .classList.remove('hidden');
+}
+
+function closeCommunityRules() {
+    document.getElementById('communityRulesModal')
+        .classList.add('hidden');
+}
+
+
+function openReportModal() {
+
+    // Báo cáo cần biết người gửi là ai
+    if (!currentUser) {
+        openAuthModal();
+        return;
+    }
+
+    document.getElementById('reportModal')
+        .classList.remove('hidden');
+}
+
+function closeReportModal() {
+    document.getElementById('reportModal')
+        .classList.add('hidden');
+}
+
+
+function openSupportModal() {
+    document.getElementById('supportModal')
+        .classList.remove('hidden');
+}
+
+function closeSupportModal() {
+    document.getElementById('supportModal')
+        .classList.add('hidden');
+}
+    async function submitReport() {
+
+    if (!currentUser) {
+        openAuthModal();
+        return;
+    }
+
+    const reason =
+        document.getElementById('reportReason').value;
+
+    const description =
+        document.getElementById('reportDescription').value.trim();
+
+    if (!reason) {
+        alert('Vui lòng chọn lý do báo cáo.');
+        return;
+    }
+
+    if (!description) {
+        alert('Vui lòng mô tả vấn đề.');
+        return;
+    }
+
+    try {
+
+        await window.vloopFirebase.addDoc(
+            window.vloopFirebase.collection(
+                window.vloopDB,
+                "reports"
+            ),
+            {
+                reporterId: currentUser.uid,
+                reporterEmail: currentUser.email,
+
+                reason: reason,
+                description: description,
+
+                status: "pending",
+
+                createdAt:
+                    window.vloopFirebase.serverTimestamp()
+            }
+        );
+
+        alert('✅ VLoop đã nhận báo cáo của bạn.');
+
+        document.getElementById('reportReason').value = '';
+        document.getElementById('reportDescription').value = '';
+
+        closeReportModal();
+
+    } catch (error) {
+
+        console.error("Lỗi gửi báo cáo:", error);
+
+        alert(
+            'Không thể gửi báo cáo. Vui lòng thử lại.'
+        );
+    }
+}
   </script>
 </body>
 </html>
