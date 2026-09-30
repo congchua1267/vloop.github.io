@@ -1133,6 +1133,13 @@ let products = [...initialProducts];    let selectedType = 'ALL';
 
     // Modal Chat & Hẹn gặp
     function openChat(sellerName) {
+        // Chưa đăng nhập → yêu cầu đăng nhập trước
+    if (!currentUser) {
+        openAuthModal();
+        return;
+    }
+
+    // Đã đăng nhập → cho phép mở chat
       document.getElementById('chatSellerName').innerText = sellerName;
       document.getElementById('chatModal').classList.remove('hidden');
     }
