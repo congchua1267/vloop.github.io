@@ -185,13 +185,13 @@
             Tất cả tin đăng
           </button>
           <button onclick="setTransactionType('BÁN')" id="filter-ban" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
-            🛒 Cần Bán
+            🛒 Cần bán
           </button>
           <button onclick="setTransactionType('TRAO ĐỔI')" id="filter-traodoi" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
-            🔄 Cần Trao Đổi
+            🔄 Cần trao đổi
           </button>
           <button onclick="setTransactionType('TẶNG')" id="filter-tang" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
-            🎁 Tặng Miễn Phí (0đ)
+            🎁 Tặng miễn phí (0đ)
           </button>
         </div>
       </div>
@@ -200,6 +200,79 @@
         <i class="fa-solid fa-recycle"></i>
       </div>
     </div>
+
+    <!-- HƯỚNG DẪN SỬ DỤNG VLOOP -->
+    <section class="mb-8">
+
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm">
+
+        <div class="text-center mb-6">
+          <h2 class="text-xl font-black text-slate-900">
+            Bắt đầu với VLoop
+          </h2>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Mua bán và trao đổi đồ dùng cùng sinh viên Văn Lang
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <!-- Bước 1 -->
+          <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-50">
+            <div class="w-11 h-11 shrink-0 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+              <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-sm text-slate-800">
+                1. Tìm kiếm sản phẩm
+              </h3>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Tìm kiếm sản phẩm hoặc lọc theo danh mục và cơ sở.
+              </p>
+            </div>
+          </div>
+          <!-- Bước 2 -->
+          <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-50">
+            <div class="w-11 h-11 shrink-0 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+              <i class="fa-solid fa-comments text-lg"></i>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-sm text-slate-800">
+                2. Liên hệ người bán
+              </h3>
+
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Đăng nhập bằng email sinh viên VLU để nhắn tin và trao đổi.
+              </p>
+            </div>
+          </div>
+          <!-- Bước 3 -->
+          <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-50">
+            <div class="w-11 h-11 shrink-0 rounded-xl bg-red-100 text-vlu-red flex items-center justify-center">
+              <i class="fa-solid fa-store text-lg"></i>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-sm text-slate-800">
+                3. Đăng tin của bạn
+              </h3>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Đăng sản phẩm bạn muốn bán, trao đổi hoặc tặng.
+              </p>
+            </div>
+          </div>
+        </div>
+        <p class="text-center text-xs text-slate-400 mt-5">
+          <i class="fa-solid fa-lock mr-1"></i>
+          Một số tính năng yêu cầu đăng nhập bằng email @vanlanguni.vn
+        </p>
+
+      </div>
+
+    </section>
 
     <!-- Category Carousel & Filters -->
     <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -220,7 +293,7 @@
           <option value="Đồ công nghệ">💻 Đồ công nghệ & Phụ kiện</option>
           <option value="Đồ dùng phòng trọ">🛏️ Đồ dùng phòng trọ</option>
           <option value="Đồ án & Kiến trúc">🎨 Dụng cụ vẽ & Đồ án</option>
-          <option value="Thời trang & Đồng phục">👕 Quần áo & Đồng phục VLU</option>
+          <option value="Thời trang & Đồng phục">👕 Đồng phục & Balo Vlu</option>
           <option value="Khác">📦 Khác</option>
         </select>
         
