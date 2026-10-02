@@ -357,7 +357,7 @@
         onclick="registerUser()"
         class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-sm"
       >
-        Tạo tài khoản VLU
+Đăng ký VLoop bằng email VLU      
       </button>
 
     </div>
@@ -818,7 +818,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendEmailVerification,
+  reload
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
   const firebaseConfig = {
     apiKey: "AIzaSyAiVymz9FyXncHUPna2BAkC7NGI-2pNtaA",
@@ -838,15 +840,17 @@ import {
   window.vloopAuth = auth;
 
   window.vloopFirebase = {
-    collection,
-    addDoc,
-    onSnapshot,
-    serverTimestamp,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-  };
+  collection,
+  addDoc,
+  onSnapshot,
+  serverTimestamp,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendEmailVerification,
+  reload
+};
 
   console.log("🔥 VLoop đã kết nối Firebase!");
 </script>
@@ -1449,11 +1453,8 @@ function isVLUEmail(email) {
 // ĐĂNG KÝ
 async function registerUser() {
 
-  const email =
-    document.getElementById('authEmail').value.trim();
-
-  const password =
-    document.getElementById('authPassword').value;
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
 
   if (!isVLUEmail(email)) {
     showAuthError(
@@ -1471,16 +1472,63 @@ async function registerUser() {
 
   try {
 
-    await window.vloopFirebase
-      .createUserWithEmailAndPassword(
+    // 1. Tạo tài khoản VLoop
+    const userCredential =
+      await window.vloopFirebase.createUserWithEmailAndPassword(
         window.vloopAuth,
         email,
         password
       );
 
+    const user = userCredential.user;
+
+    // 2. Gửi email xác minh
+    await window.vloopFirebase.sendEmailVerification(user);
+
+    // 3. Đăng xuất tạm thời
+    // Người dùng phải xác minh email trước khi sử dụng VLoop
+    await window.vloopFirebase.signOut(window.vloopAuth);
+
     closeAuthModal();
 
-    alert('🎉 Tạo tài khoản VLoop thành công!');
+    alert(
+      '📧 Tài khoản VLoop đã được tạo!\n\n' +
+      'Một email xác minh đã được gửi tới:\n' +
+      email +
+      '\n\n' +
+      'Vui lòng mở email và bấm vào liên kết xác minh trước khi đăng nhập.'
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (error.code === 'auth/email-already-in-use') {
+
+      showAuthError(
+        'Email này đã có tài khoản VLoop. Hãy đăng nhập.'
+      );
+
+    } else if (error.code === 'auth/invalid-email') {
+
+      showAuthError(
+        'Email không hợp lệ.'
+      );
+
+    } else if (error.code === 'auth/weak-password') {
+
+      showAuthError(
+        'Mật khẩu quá yếu. Hãy sử dụng mật khẩu mạnh hơn.'
+      );
+
+    } else {
+
+      showAuthError(
+        'Không thể tạo tài khoản hoặc gửi email xác minh. Vui lòng thử lại.'
+      );
+    }
+  }
+}
 
   } catch (error) {
 
