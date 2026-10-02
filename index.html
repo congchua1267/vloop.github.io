@@ -1527,21 +1527,7 @@ async function registerUser() {
         'Không thể tạo tài khoản hoặc gửi email xác minh. Vui lòng thử lại.'
       );
     }
-  }
-}
 
-  } catch (error) {
-
-    console.error(error);
-
-    if (error.code === 'auth/email-already-in-use') {
-      showAuthError('Email này đã có tài khoản VLoop.');
-    } else {
-      showAuthError('Không thể tạo tài khoản. Vui lòng thử lại.');
-    }
-
-  }
-}
 
 
 // ĐĂNG NHẬP
