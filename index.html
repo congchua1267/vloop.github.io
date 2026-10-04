@@ -165,7 +165,45 @@
 
   <!-- Main Content -->
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
-    
+<!-- Transaction Type Filters -->
+<div class="flex flex-wrap gap-2 mb-4 text-xs sm:text-sm font-semibold">
+
+  <button
+    onclick="setTransactionType('ALL')"
+    id="filter-all"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-900 border border-slate-200 shadow-sm transition"
+  >
+    Tất cả tin đăng
+  </button>
+
+  <button
+    onclick="setTransactionType('BÁN')"
+    id="filter-ban"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-slate-300 transition"
+  >
+    🛒 Cần bán
+  </button>
+
+  <button
+    onclick="setTransactionType('TRAO ĐỔI')"
+    id="filter-traodoi"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-slate-300 transition"
+  >
+    🔄 Cần trao đổi
+  </button>
+
+  <button
+    onclick="setTransactionType('TẶNG')"
+    id="filter-tang"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-slate-300 transition"
+  >
+    🎁 Tặng miễn phí (0đ)
+  </button>
+
+</div>
+
+<!-- Hero / Smart Info Banner -->
+<div class="bg-gradient-to-r from-slate-900 via-slate-800 to-vlu-navy rounded-3xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">    
     <!-- Hero / Smart Info Banner -->
     <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-vlu-navy rounded-3xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">
       <div class="relative z-10 max-w-2xl">
@@ -179,21 +217,7 @@
           Chỉ dành riêng cho sinh viên Văn Lang. Không sợ bài rác lách luật, nói không với tráo hàng – chỉ giao dịch trực tiếp ngay tại thư viện, căn tin hoặc sảnh trường.
         </p>
 
-        <!-- Quick Filter Mode Pills -->
-        <div class="flex flex-wrap gap-2 text-xs font-semibold">
-          <button onclick="setTransactionType('ALL')" id="filter-all" class="px-4 py-2 rounded-xl bg-white text-slate-900 shadow-sm transition">
-            Tất cả tin đăng
-          </button>
-          <button onclick="setTransactionType('BÁN')" id="filter-ban" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
-            🛒 Cần bán
-          </button>
-          <button onclick="setTransactionType('TRAO ĐỔI')" id="filter-traodoi" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
-            🔄 Cần trao đổi
-          </button>
-          <button onclick="setTransactionType('TẶNG')" id="filter-tang" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition">
-            🎁 Tặng miễn phí (0đ)
-          </button>
-        </div>
+       
       </div>
       <!-- Background Graphic Decor -->
       <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-[220px]">
@@ -208,71 +232,6 @@
 
         <div class="text-center mb-6">
           <h2 class="text-xl font-black text-slate-900">
-            Bắt đầu với VLoop
-          </h2>
-
-          <p class="text-sm text-slate-500 mt-2">
-            Mua bán và trao đổi đồ dùng cùng sinh viên Văn Lang
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-          <!-- Bước 1 -->
-          <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-50">
-            <div class="w-11 h-11 shrink-0 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-              <i class="fa-solid fa-magnifying-glass text-lg"></i>
-            </div>
-
-            <div>
-              <h3 class="font-bold text-sm text-slate-800">
-                1. Tìm kiếm sản phẩm
-              </h3>
-              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                Tìm kiếm sản phẩm hoặc lọc theo danh mục và cơ sở.
-              </p>
-            </div>
-          </div>
-          <!-- Bước 2 -->
-          <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-50">
-            <div class="w-11 h-11 shrink-0 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-              <i class="fa-solid fa-comments text-lg"></i>
-            </div>
-
-            <div>
-              <h3 class="font-bold text-sm text-slate-800">
-                2. Liên hệ người bán
-              </h3>
-
-              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                Đăng nhập bằng email sinh viên VLU để nhắn tin và trao đổi.
-              </p>
-            </div>
-          </div>
-          <!-- Bước 3 -->
-          <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-50">
-            <div class="w-11 h-11 shrink-0 rounded-xl bg-red-100 text-vlu-red flex items-center justify-center">
-              <i class="fa-solid fa-store text-lg"></i>
-            </div>
-
-            <div>
-              <h3 class="font-bold text-sm text-slate-800">
-                3. Đăng tin của bạn
-              </h3>
-              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                Đăng sản phẩm bạn muốn bán, trao đổi hoặc tặng.
-              </p>
-            </div>
-          </div>
-        </div>
-        <p class="text-center text-xs text-slate-400 mt-5">
-          <i class="fa-solid fa-lock mr-1"></i>
-          Một số tính năng yêu cầu đăng nhập bằng email @vanlanguni.vn
-        </p>
-
-      </div>
-
-    </section>
 
     <!-- Category Carousel & Filters -->
     <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
