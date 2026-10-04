@@ -167,11 +167,10 @@
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
 <!-- Transaction Type Filters -->
 <div class="flex flex-wrap gap-2 mb-4 text-xs sm:text-sm font-semibold">
-
   <button
     onclick="setTransactionType('ALL')"
     id="filter-all"
-    class="px-5 py-2.5 rounded-xl bg-white text-slate-900 border border-slate-200 shadow-sm transition"
+    class="px-5 py-2.5 rounded-xl bg-vlu-red text-white border border-vlu-red shadow-sm transition"
   >
     Tất cả tin đăng
   </button>
@@ -179,7 +178,7 @@
   <button
     onclick="setTransactionType('BÁN')"
     id="filter-ban"
-    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-slate-300 transition"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition"
   >
     🛒 Cần bán
   </button>
@@ -187,7 +186,7 @@
   <button
     onclick="setTransactionType('TRAO ĐỔI')"
     id="filter-traodoi"
-    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-slate-300 transition"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition"
   >
     🔄 Cần trao đổi
   </button>
@@ -195,13 +194,11 @@
   <button
     onclick="setTransactionType('TẶNG')"
     id="filter-tang"
-    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-slate-300 transition"
+    class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition"
   >
     🎁 Tặng miễn phí (0đ)
   </button>
-
 </div>
-
 <!-- Hero / Smart Info Banner (Nâng cấp) -->
 <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-[#1e1b4b] to-vlu-darkRed p-6 sm:p-10 mb-8 text-white shadow-2xl border border-white/10">
   
@@ -243,9 +240,6 @@
       <div class="pt-2 flex flex-wrap items-center gap-3">
         <button onclick="requireLoginForPost()" class="px-5 py-2.5 bg-vlu-red hover:bg-red-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-red-900/40 transition active:scale-95 flex items-center gap-2">
           <i class="fa-solid fa-paper-plane"></i> Đăng món cần pass
-        </button>
-        <button onclick="setTransactionType('TẶNG')" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 text-white font-semibold text-xs rounded-xl transition flex items-center gap-2">
-          <i class="fa-solid fa-gift text-emerald-400"></i> Xem đồ tặng 0đ
         </button>
       </div>
 
@@ -1240,22 +1234,7 @@ let products = [...initialProducts];    let selectedType = 'ALL';
     }
 
     // Xử lý bộ lọc giao dịch
-    function setTransactionType(type) {
-      selectedType = type;
-      ['all', 'ban', 'traodoi', 'tang'].forEach(id => {
-        const btn = document.getElementById(`filter-${id}`);
-        if(btn) {
-          btn.className = "px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition";
-        }
-      });
-      const activeId = type === 'ALL' ? 'all' : (type === 'BÁN' ? 'ban' : (type === 'TRAO ĐỔI' ? 'traodoi' : 'tang'));
-      const activeBtn = document.getElementById(`filter-${activeId}`);
-      if(activeBtn) {
-        activeBtn.className = "px-4 py-2 rounded-xl bg-white text-slate-900 font-bold shadow-sm transition";
-      }
-      renderProducts();
-    }
-
+   function setTransactionType(type)
     // Xử lý bộ lọc Campus
     function setCampus(campus) {
       selectedCampus = campus;
