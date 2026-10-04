@@ -681,43 +681,33 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-8 mt-12 text-slate-500 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="flex items-center gap-2">
-        <div class="w-6 h-6 bg-vlu-red text-white rounded-lg flex items-center justify-center font-bold text-xs">
+ <!-- Footer thu gọn chiều cao, chữ to và nét hơn -->
+  <footer class="bg-white border-t border-slate-200 mt-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row justify-between items-center gap-2.5">
+      
+      <!-- Dòng trên - Bên trái: Logo + Tên + Slogan -->
+      <div class="flex items-center gap-2 text-[13px]">
+        <div class="w-6 h-6 bg-vlu-red text-white rounded-lg flex items-center justify-center font-bold text-xs shrink-0">
           <i class="fa-solid fa-arrows-rotate"></i>
         </div>
-        <span class="font-black text-slate-800">VLoop Community</span>
-        <span> Đồ cũ hôm nay, giá trị mới ngày mai</span>
+        <span class="font-extrabold text-slate-800">VLoop Community</span>
+        <span class="text-slate-600 font-medium">— Đồ cũ hôm nay, giá trị mới ngày mai</span>
       </div>
-      <div class="flex flex-wrap justify-center items-center gap-2.5 text-xs text-slate-500">
-    <button
-        onclick="openCommunityRules()"
-        class="hover:text-vlu-red transition">
-        Quy tắc cộng đồng
-    </button>
 
-    <span>•</span>
+      <!-- Dòng trên - Bên phải: 3 nút hỗ trợ (Chữ to 13px, đậm 1 tone text-slate-600 font-semibold) -->
+      <div class="flex flex-wrap justify-center items-center gap-3 text-[13px] text-slate-600 font-semibold">
+        <button onclick="openCommunityRules()" class="hover:text-vlu-red transition cursor-pointer">Quy tắc cộng đồng</button>
+        <span class="text-slate-300">•</span>
+        <button onclick="openReportModal()" class="hover:text-vlu-red transition cursor-pointer">Báo cáo vi phạm</button>
+        <span class="text-slate-300">•</span>
+        <button onclick="openSupportModal()" class="hover:text-vlu-red transition cursor-pointer">Trung tâm hỗ trợ</button>
+      </div>
 
-    <button
-        onclick="openReportModal()"
-        class="hover:text-vlu-red transition">
-        Báo cáo vi phạm
-    </button>
-
-    <span>•</span>
-
-    <button
-        onclick="openSupportModal()"
-        class="hover:text-vlu-red transition">
-        Trung tâm hỗ trợ
-    </button>
     </div>
-    </div>
-    <!-- Dòng bản quyền dưới cùng -->
-<div class="border-t border-slate-100 py-2.5 text-center text-slate-400 text-[11px]">      
-  © 2026 Vloop · Dự án học phần Khởi nghiệp số · Văn Lang University
+
+    <!-- Dòng dưới: Bản quyền (Đã giảm chiều cao py-2, chữ to 12.5px, đậm màu text-slate-600 font-semibold) -->
+    <div class="border-t border-slate-100 py-2 text-center text-slate-600 text-[12.5px] font-semibold">
+      © 2026 Vloop · Dự án học phần Khởi nghiệp số · Văn Lang University
     </div>
   </footer>
   <!-- Modal Quy tắc cộng đồng -->
