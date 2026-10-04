@@ -360,7 +360,7 @@
     </div>
 
     <!-- Bottom Features & Guidelines (Mục 6 & 7 & 10) -->
-<section id="tradingRulesSection" class="hidden mt-16 border-t border-slate-200 pt-12">      
+<section class="hidden mt-16 border-t border-slate-200 pt-12">      
   <div class="text-center max-w-xl mx-auto mb-10">
         <h2 class="text-xl font-black text-slate-900">Nguyên tắc giao dịch VLoop tại Văn Lang</h2>
         <p class="text-xs text-slate-500 mt-1">Bảo vệ quyền lợi sinh viên và xây dựng văn hóa tiêu dùng bền vững</p>
@@ -1153,6 +1153,62 @@ let products = [...initialProducts];    let selectedType = 'ALL';
       const grid = document.getElementById('productGrid');
       const empty = document.getElementById('emptyState');
       const countEl = document.getElementById('itemCount');
+      if (!grid) return;
+    // --- NẾU BẤM TAB NGUYÊN TẮC: Vẽ 3 khung nguyên tắc vào ngay đây ---
+  if (selectedType === 'NGUYÊN TẮC') {
+    if (empty) empty.classList.add('hidden');
+    if (countEl) countEl.innerText = 'Quy chuẩn VLU';
+
+    grid.className = "col-span-full w-full py-2";
+    grid.innerHTML = `
+      <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm animate-fadeIn">
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <span class="inline-block px-3 py-1 bg-red-50 text-vlu-red font-bold text-xs rounded-full mb-2">Quy định giao dịch</span>
+          <h2 class="text-2xl font-black text-slate-900">Nguyên tắc giao dịch VLoop tại Văn Lang</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Bảo vệ quyền lợi sinh viên và xây dựng văn hóa tiêu dùng bền vững</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Mục 1 -->
+          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:border-red-200 transition">
+            <div class="w-12 h-12 rounded-xl bg-red-100 text-vlu-red flex items-center justify-center text-xl mb-4">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+            <h4 class="font-bold text-base text-slate-800 mb-2">Xác thực Sinh viên VLU</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Hạn chế tối đa tài khoản ảo, lừa đảo. Mỗi tài khoản có điểm tín nhiệm (Score) dựa trên đánh giá sau giao dịch.
+            </p>
+          </div>
+
+          <!-- Mục 2 -->
+          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:border-blue-200 transition">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-4">
+              <i class="fa-solid fa-camera-rotate"></i>
+            </div>
+            <h4 class="font-bold text-base text-slate-800 mb-2">Minh bạch tình trạng 100%</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Bắt buộc chụp ảnh thực tế, mô tả chi tiết vết xước, lỗi nhẹ (nếu có). Nghiêm cấm ảnh mạng giả mạo.
+            </p>
+          </div>
+
+          <!-- Mục 3 -->
+          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 hover:border-emerald-200 transition">
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4">
+              <i class="fa-solid fa-handshake"></i>
+            </div>
+            <h4 class="font-bold text-base text-slate-800 mb-2">Giao dịch an toàn tại Trường</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Khuyến khích hẹn gặp trực tiếp tại Căn tin Tòa A, Sảnh G Cơ sở 3 hoặc Thư viện để kiểm tra đồ trước khi thanh toán.
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Khôi phục lại class lưới hiển thị khi xem sản phẩm bình thường
+  grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6";
 
       const filtered = products.filter(item => {
         const matchType = (selectedType === 'ALL') || (item.type === selectedType);
@@ -1260,19 +1316,24 @@ let products = [...initialProducts];    let selectedType = 'ALL';
     const inactiveClass = "px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition";
     const activeClass = "px-5 py-2.5 rounded-xl bg-vlu-red text-white border border-vlu-red shadow-sm transition";
 
-    ['all', 'ban', 'traodoi', 'tang'].forEach(id => {
+    ['all', 'ban', 'traodoi', 'tang', 'nguyen tac'].forEach(id => {
       const btn = document.getElementById(`filter-${id}`);
       if (btn) btn.className = inactiveClass;
     });
+const activeMap = {
+        'ALL': 'all',
+        'BÁN': 'ban',
+        'TRAO ĐỔI': 'traodoi',
+        'CHO TẶNG': 'tang',
+        'NGUYÊN TẮC': 'nguyentac'
+      };
+    const activeBtn = document.getElementById(`filter-${activeMap[type]}`);
+      if (activeBtn) activeBtn.className = activeClass;
 
-    const activeId = type === 'ALL' ? 'all' : (type === 'BÁN' ? 'ban' : (type === 'TRAO ĐỔI' ? 'traodoi' : 'tang'));
-    const activeBtn = document.getElementById(`filter-${activeId}`);
-    if (activeBtn) {
-      activeBtn.className = activeClass;
+      renderProducts();
     }
-
-    renderProducts();
-  }
+    
+  
   // Xử lý bộ lọc Campus (Đồng bộ di chuyển ghim đỏ ở thanh trên cùng)
   function setCampus(campus) {
     selectedCampus = campus;
