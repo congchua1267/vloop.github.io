@@ -1316,7 +1316,7 @@ let products = [...initialProducts];    let selectedType = 'ALL';
     const inactiveClass = "px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition";
     const activeClass = "px-5 py-2.5 rounded-xl bg-vlu-red text-white border border-vlu-red shadow-sm transition";
 
-    ['all', 'ban', 'traodoi', 'tang', 'nguyen tac'].forEach(id => {
+    ['all', 'ban', 'traodoi', 'tang', 'nguyentac'].forEach(id => {
       const btn = document.getElementById(`filter-${id}`);
       if (btn) btn.className = inactiveClass;
     });
