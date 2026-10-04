@@ -45,15 +45,33 @@
         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300">
           <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> VLU Verified Community
         </span>
-        <span>Hệ sinh thái trao đổi nội bộ an toàn dành riêng cho sinh viên Đại học Văn Lang</span>
+        <span>Đồ cũ của bạn, vòng đời mới của người khác</span>
       </div>
-      <div class="flex items-center gap-4 text-slate-400">
-        <span class="hover:text-white transition cursor-pointer"><i class="fa-solid fa-map-pin mr-1 text-vlu-red"></i>CS3 Đặng Thùy Trâm</span>
-        <span class="hidden md:inline">|</span>
-        <span class="hover:text-white transition cursor-pointer">CS1 Nguyễn Khắc Nhu</span>
-        <span class="hidden md:inline">|</span>
-        <span class="hover:text-white transition cursor-pointer">CS2 Phan Văn Trị</span>
-      </div>
+     <div class="flex items-center gap-3 text-slate-400 text-xs">
+          <button 
+            id="top-campus-cs3" 
+            onclick="setCampus('Cơ sở 3')" 
+            class="hover:text-white transition cursor-pointer flex items-center gap-1 py-0.5 px-2 rounded-lg"
+          >
+            <i class="fa-solid fa-map-pin text-vlu-red"></i> CS3 Đặng Thùy Trâm
+          </button>
+          <span class="hidden md:inline text-slate-600">|</span>
+          <button 
+            id="top-campus-cs1" 
+            onclick="setCampus('Cơ sở 1')" 
+            class="hover:text-white transition cursor-pointer py-0.5 px-2 rounded-lg"
+          >
+            CS1 Nguyễn Khắc Nhu
+          </button>
+          <span class="hidden md:inline text-slate-600">|</span>
+          <button 
+            id="top-campus-cs2" 
+            onclick="setCampus('Cơ sở 2')" 
+            class="hover:text-white transition cursor-pointer py-0.5 px-2 rounded-lg"
+          >
+            CS2 Phan Văn Trị
+          </button>
+        </div>
     </div>
   </div>
 
