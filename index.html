@@ -1233,8 +1233,26 @@ let products = [...initialProducts];    let selectedType = 'ALL';
       return `<span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">🎁 CHO TẶNG</span>`;
     }
 
-    // Xử lý bộ lọc giao dịch
-   function setTransactionType(type)
+   // Xử lý bộ lọc giao dịch
+  function setTransactionType(type) {
+    selectedType = type;
+
+    const inactiveClass = "px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition";
+    const activeClass = "px-5 py-2.5 rounded-xl bg-vlu-red text-white border border-vlu-red shadow-sm transition";
+
+    ['all', 'ban', 'traodoi', 'tang'].forEach(id => {
+      const btn = document.getElementById(`filter-${id}`);
+      if (btn) btn.className = inactiveClass;
+    });
+
+    const activeId = type === 'ALL' ? 'all' : (type === 'BÁN' ? 'ban' : (type === 'TRAO ĐỔI' ? 'traodoi' : 'tang'));
+    const activeBtn = document.getElementById(`filter-${activeId}`);
+    if (activeBtn) {
+      activeBtn.className = activeClass;
+    }
+
+    renderProducts();
+  }
     // Xử lý bộ lọc Campus
     function setCampus(campus) {
       selectedCampus = campus;
