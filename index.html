@@ -843,6 +843,12 @@
     onSnapshot,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+  import { 
+    getStorage, 
+    ref, 
+    uploadBytes, 
+    getDownloadURL 
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -864,6 +870,7 @@ import {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
+  const storage = getStorage(app);
 
   // Cho JavaScript hiện tại của VLoop sử dụng Firebase
   window.vloopDB = db;
@@ -879,7 +886,10 @@ import {
   signOut,
   onAuthStateChanged,
   sendEmailVerification,
-  reload
+  reload,
+  ref,
+  uploadBytes,
+  getDownloadURL
 };
 
   console.log("🔥 VLoop đã kết nối Firebase!");
@@ -890,13 +900,13 @@ import {
     const initialProducts = [
       {
         id: 1,
-        title: "Giáo trình Kinh tế Vi mô (Bản chuẩn VLU)",
+        title: "Giáo trình Kinh tế Vi mô",
         category: "Giáo trình & Sách",
         type: "BÁN",
         price: 35000,
         campus: "Cơ sở 3",
         condition: "Đã qua sử dụng, hoạt động tốt",
-        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=60",
+        image: "https://tse2.mm.bing.net/th/id/OIP.rfbqHb1ERSen51hB_eBiAwHaLp?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         description: "Sách mua kỳ trước của thầy dạy khoa QTKD, đã note bút dạ quang các chương quan trọng thi cuối kỳ. Còn nguyên gáy không rách trang nào.",
         seller: "Minh Triết (K28)",
         Score: 99,
@@ -951,13 +961,13 @@ import {
       },
       {
         id: 5,
-        title: "Áo Polo Đồng phục Văn Lang size L",
+        title: "Áo Hội sinh viên Nữ - Size L",
         category: "Thời trang & Đồng phục",
         type: "BÁN",
-        price: 45000,
+        price: 90000,
         campus: "Cơ sở 1",
         condition: "Còn như mới (95-99%)",
-        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60",
+        image: "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3u2aso5373ccc",
         description: "Áo mới mặc 2 lần lúc sinh hoạt đầu khóa, chất vải thoáng mát, form chuẩn cho bạn nào từ 58-68kg.",
         seller: "Đức Huy (K28)",
         Score: 92,
