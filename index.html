@@ -61,20 +61,22 @@
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20 gap-4">
-        <!-- Logo -->
-        <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
-          <div class="w-12 h-12 bg-vlu-red text-white rounded-2xl flex items-center justify-center font-extrabold text-2xl shadow-lg shadow-red-500/20">
-            <i class="fa-solid fa-arrows-rotate"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-2xl font-black tracking-tight text-slate-900">V<span class="text-vlu-red">Loop</span></span>
-              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-red-100 text-vlu-red rounded">VLU</span>
-            </div>
-            <p class="text-[11px] text-slate-400 font-medium">Vòng lặp đồ cũ sinh viên</p>
-          </div>
-        </div>
-
+<!-- Logo dùng file ảnh nội bộ -->
+<div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
+  <img 
+    src="./Hình/Vloop Logo.png" 
+    alt="Logo VLoop" 
+    class="h-12 w-auto object-contain"
+    onerror="this.src='https://via.placeholder.com/48?text=VLoop'"
+  >
+  <div>
+    <div class="flex items-center gap-1.5">
+      <span class="text-2xl font-black tracking-tight text-slate-900">V<span class="text-vlu-red">Loop</span></span>
+      <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-red-100 text-vlu-red rounded">VLU</span>
+    </div>
+    <p class="text-[11px] text-slate-400 font-medium">Vòng lặp đồ cũ sinh viên</p>
+  </div>
+</div>
         <!-- Search Bar -->
         <div class="hidden md:flex flex-1 max-w-xl mx-4">
           <div class="relative w-full">
