@@ -53,15 +53,7 @@
             onclick="setCampus('Cơ sở 3')" 
             class="hover:text-white transition cursor-pointer flex items-center gap-1 py-0.5 px-2 rounded-lg"
           >
-            <i class="fa-solid fa-map-pin text-vlu-red"></i> CS3 Đặng Thùy Trâm
-          </button>
-          <span class="hidden md:inline text-slate-600">|</span>
-          <button 
-            id="top-campus-cs1" 
-            onclick="setCampus('Cơ sở 1')" 
-            class="hover:text-white transition cursor-pointer py-0.5 px-2 rounded-lg"
-          >
-            CS1 Nguyễn Khắc Nhu
+            <span id="pin-cs3"></span>CS3 Đặng Thùy Trâm
           </button>
           <span class="hidden md:inline text-slate-600">|</span>
           <button 
@@ -69,7 +61,15 @@
             onclick="setCampus('Cơ sở 2')" 
             class="hover:text-white transition cursor-pointer py-0.5 px-2 rounded-lg"
           >
-            CS2 Phan Văn Trị
+           <span id="pin-cs1"></span>CS2 Phan Văn Trị
+          </button>
+          <span class="hidden md:inline text-slate-600">|</span>
+          <button 
+            id="top-campus-cs1" 
+            onclick="setCampus('Cơ sở 1')" 
+            class="hover:text-white transition cursor-pointer py-0.5 px-2 rounded-lg"
+          >
+            <span id="pin-cs1"></span>CS1 Nguyễn Khắc Nhu
           </button>
         </div>
     </div>
@@ -1265,22 +1265,47 @@ let products = [...initialProducts];    let selectedType = 'ALL';
 
     renderProducts();
   }
-    // Xử lý bộ lọc Campus
-    function setCampus(campus) {
-      selectedCampus = campus;
-      ['all', 'cs3', 'cs1', 'cs2'].forEach(id => {
-        const btn = document.getElementById(`campus-${id}`);
-        if(btn) {
-          btn.className = "px-3 py-1.5 rounded-lg font-semibold bg-white border border-slate-200 text-slate-600 hover:border-slate-300 whitespace-nowrap transition";
-        }
-      });
-      const activeMap = { 'ALL': 'all', 'Cơ sở 3': 'cs3', 'Cơ sở 1': 'cs1', 'Cơ sở 2': 'cs2' };
-      const activeBtn = document.getElementById(`campus-${activeMap[campus]}`);
-      if(activeBtn) {
-        activeBtn.className = "px-3 py-1.5 rounded-lg font-bold bg-slate-900 text-white whitespace-nowrap transition";
-      }
-      renderProducts();
+  // Xử lý bộ lọc Campus (Đồng bộ di chuyển ghim đỏ ở thanh trên cùng)
+  function setCampus(campus) {
+    selectedCampus = campus;
+
+    // 1. Đổi kiểu dáng nút ở thanh bộ lọc bên dưới
+    const inactiveClass = "px-3 py-1.5 rounded-lg font-semibold bg-white border border-slate-200 text-slate-600 hover:border-slate-300 whitespace-nowrap transition";
+    const activeClass = "px-3 py-1.5 rounded-lg font-bold bg-slate-900 text-white whitespace-nowrap transition";
+
+    ['all', 'cs3', 'cs1', 'cs2'].forEach(id => {
+      const btn = document.getElementById(`campus-${id}`);
+      if (btn) btn.className = inactiveClass;
+    });
+
+    const activeMap = { 
+      'ALL': 'all', 
+      'Cơ sở 3': 'cs3', 
+      'Cơ sở 1': 'cs1', 
+      'Cơ sở 2': 'cs2' 
+    };
+
+    const activeBtn = document.getElementById(`campus-${activeMap[campus]}`);
+    if (activeBtn) activeBtn.className = activeClass;
+
+    // 2. Di chuyển icon ghim đỏ ở thanh thông báo trên cùng
+    const pinIcon = '<i class="fa-solid fa-map-pin text-vlu-red mr-1"></i>';
+
+    // Xóa ghim cũ ở cả 3 cơ sở
+    ['cs3', 'cs1', 'cs2'].forEach(id => {
+      const pinSpan = document.getElementById(`pin-${id}`);
+      if (pinSpan) pinSpan.innerHTML = '';
+    });
+
+    // Chèn ghim vào cơ sở vừa chọn (nếu chọn CS3, CS1 hoặc CS2)
+    if (campus !== 'ALL') {
+      const currentPin = document.getElementById(`pin-${activeMap[campus]}`);
+      if (currentPin) currentPin.innerHTML = pinIcon;
     }
+
+    // 3. Cập nhật lại danh sách sản phẩm
+    renderProducts();
+  }
 
     // Xử lý lọc danh mục
     function handleCategoryFilter() {
