@@ -213,7 +213,7 @@
   <!-- NÚT NGUYÊN TẮC MỚI GẮN VÀO ĐÂY -->
   <button 
     id="filter-nguyentac" 
-    onclick="showRulesView()" 
+    onclick="setTransactionType('NGUYÊN TẮC')"
     class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 hover:border-vlu-red hover:text-vlu-red hover:bg-red-50 transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
   >
     🛡️ Nguyên tắc
@@ -1325,6 +1325,7 @@ const activeMap = {
         'BÁN': 'ban',
         'TRAO ĐỔI': 'traodoi',
         'CHO TẶNG': 'tang',
+        'TẶNG': 'tang',
         'NGUYÊN TẮC': 'nguyentac'
       };
     const activeBtn = document.getElementById(`filter-${activeMap[type]}`);
